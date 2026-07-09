@@ -37,7 +37,6 @@ public class CompanyService {
                         new RuntimeException("Company not found"));
 
         company.setCompanyName(updatedCompany.getCompanyName());
-        company.setEmail(updatedCompany.getEmail());
         company.setPhoneNumber(updatedCompany.getPhoneNumber());
         company.setWebsite(updatedCompany.getWebsite());
         company.setIndustry(updatedCompany.getIndustry());

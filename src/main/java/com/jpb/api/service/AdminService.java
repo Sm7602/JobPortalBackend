@@ -35,8 +35,8 @@ public class AdminService {
         System.out.println("AdminService.updateAdmin()");
         Admin admin = adminRepository.findById(id).orElseThrow(() ->
                         new RuntimeException("Admin not found"));
-        admin.setName(updatedAdmin.getName());
-        admin.setEmail(updatedAdmin.getEmail());
+        admin.setFirstName(updatedAdmin.getFirstName());
+        admin.setLastName(updatedAdmin.getLastName());
         admin.setPhoneNumber(updatedAdmin.getPhoneNumber());
         admin.setUpdatedAt(LocalDateTime.now());
         return adminRepository.save(admin);

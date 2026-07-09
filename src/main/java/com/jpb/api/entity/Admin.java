@@ -27,10 +27,10 @@ public class Admin {
 	private LocalDateTime updatedAt;
 
 	private Boolean active;
-	
-    private String name;
 
-    private String email;
+    private String firstName;
+
+    private String lastName;
 
     private String phoneNumber;
     

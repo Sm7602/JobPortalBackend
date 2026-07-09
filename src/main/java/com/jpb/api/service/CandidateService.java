@@ -38,7 +38,6 @@ public class CandidateService {
 
         candidate.setFirstName(updatedCandidate.getFirstName());
         candidate.setLastName(updatedCandidate.getLastName());
-        candidate.setEmail(updatedCandidate.getEmail());
         candidate.setPhoneNumber(updatedCandidate.getPhoneNumber());
         candidate.setCity(updatedCandidate.getCity());
         candidate.setSkills(updatedCandidate.getSkills());

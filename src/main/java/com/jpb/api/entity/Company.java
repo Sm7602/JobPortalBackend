@@ -32,8 +32,6 @@ public class Company {
 
 	    private String companyName;
 
-	    private String email;
-
 	    private String phoneNumber;
 
 	    private String website;

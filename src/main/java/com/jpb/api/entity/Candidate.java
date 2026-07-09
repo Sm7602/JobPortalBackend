@@ -34,8 +34,6 @@ public class Candidate {
 
 	    private String lastName;
 
-	    private String email;
-
 	    private String phoneNumber;
 
 	    private String city;
