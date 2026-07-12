@@ -8,11 +8,11 @@ import com.jpb.api.dao.AdminRepository;
 import com.jpb.api.dao.CandidateRepository;
 import com.jpb.api.dao.CompanyRepository;
 import com.jpb.api.dao.UserRepository;
-import com.jpb.api.dto.AdminRegisterRequest;
-import com.jpb.api.dto.AuthenticationRequest;
-import com.jpb.api.dto.AuthenticationResponse;
-import com.jpb.api.dto.CandidateRegisterRequest;
-import com.jpb.api.dto.CompanyRegisterRequest;
+import com.jpb.api.dto.auth.AdminRegisterRequest;
+import com.jpb.api.dto.auth.AuthenticationResponse;
+import com.jpb.api.dto.auth.CandidateRegisterRequest;
+import com.jpb.api.dto.auth.CompanyRegisterRequest;
+import com.jpb.api.dto.auth.LoginRequest;
 import com.jpb.api.entity.Admin;
 import com.jpb.api.entity.Candidate;
 import com.jpb.api.entity.Company;
@@ -81,10 +81,13 @@ public class AuthenticationService {
 	    String jwtToken = jwtService.generateToken(new HashMap<>(), user);
 
 	    return AuthenticationResponse.builder()
-	            .token(jwtToken)
-	            .email(user.getEmail())
-                .role(user.getRole().name())
-	            .build();
+	    		    .token(jwtToken)
+	    	        .tokenType("Bearer")
+	    	        .userId(user.getId())
+	    	        .email(user.getEmail())
+	    	        .role(user.getRole().name())
+	    	        .message("Registration successful")
+	    	        .build();
 	}
 	
 	public AuthenticationResponse registerAdmin(AdminRegisterRequest request) {
@@ -120,10 +123,13 @@ public class AuthenticationService {
 	    String jwtToken = jwtService.generateToken(new HashMap<>(), user);
 
 	    return AuthenticationResponse.builder()
-	            .token(jwtToken)
-	            .email(user.getEmail())
-                .role(user.getRole().name())
-	            .build();
+    		    .token(jwtToken)
+    	        .tokenType("Bearer")
+    	        .userId(user.getId())
+    	        .email(user.getEmail())
+    	        .role(user.getRole().name())
+    	        .message("Registration successful")
+    	        .build();
 	}
 	
 	
@@ -162,13 +168,16 @@ public class AuthenticationService {
 	    String jwtToken = jwtService.generateToken(new HashMap<>(), user);
 
 	    return AuthenticationResponse.builder()
-	            .token(jwtToken)
-	            .email(user.getEmail())
-                .role(user.getRole().name())
-	            .build();
+    		    .token(jwtToken)
+    	        .tokenType("Bearer")
+    	        .userId(user.getId())
+    	        .email(user.getEmail())
+    	        .role(user.getRole().name())
+    	        .message("Registration successful")
+    	        .build();
 	}
 	
-	public AuthenticationResponse authenticate(AuthenticationRequest request) {
+	public AuthenticationResponse authenticate(LoginRequest request) {
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 						request.getEmail()
@@ -179,10 +188,13 @@ public class AuthenticationService {
 		var jwtToken =jwtService.generaTetoken(user);
 		
 		return AuthenticationResponse.builder()
-				.token(jwtToken)
-				.email(user.getEmail())
-                .role(user.getRole().name())
-				.build();
+    		    .token(jwtToken)
+    	        .tokenType("Bearer")
+    	        .userId(user.getId())
+    	        .email(user.getEmail())
+    	        .role(user.getRole().name())
+    	        .message("Login successful")
+    	        .build();
 	}
 
 }

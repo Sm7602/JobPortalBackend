@@ -1,25 +1,22 @@
-package com.jpb.api.dto;
+package com.jpb.api.dto.auth;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CandidateRegisterRequest {
+public class CandidateRegisterRequest extends BaseRegisterRequest {
 
+	   @NotBlank
 	    private String firstName;
 
+	    @NotBlank
 	    private String lastName;
-
-	    private String email;
-
-	    private String password;
-
-	    private String phoneNumber;
 
 	    private String city;
 
@@ -34,4 +31,6 @@ public class CandidateRegisterRequest {
 	    private String linkedinUrl;
 
 	    private String githubUrl;
+
+	    
 }

@@ -5,11 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.jpb.api.dto.AdminRegisterRequest;
-import com.jpb.api.dto.AuthenticationRequest;
-import com.jpb.api.dto.AuthenticationResponse;
-import com.jpb.api.dto.CandidateRegisterRequest;
-import com.jpb.api.dto.CompanyRegisterRequest;
+
+import com.jpb.api.dto.auth.AdminRegisterRequest;
+import com.jpb.api.dto.auth.AuthenticationResponse;
+import com.jpb.api.dto.auth.CandidateRegisterRequest;
+import com.jpb.api.dto.auth.CompanyRegisterRequest;
+import com.jpb.api.dto.auth.LoginRequest;
 import com.jpb.api.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +44,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<AuthenticationResponse> authenticate(
-			@RequestBody AuthenticationRequest request){
+			@RequestBody LoginRequest request){
 		System.out.println("AuthgenticationController login.....");
 		return ResponseEntity.ok(service.authenticate(request));
 	}

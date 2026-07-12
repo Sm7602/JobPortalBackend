@@ -1,4 +1,4 @@
-package com.jpb.api.dto;
+package com.jpb.api.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
    
-	private String token;
-    private String email;
-    private String role;
+	    private String token;
+
+	    private String tokenType;
+
+	    private Long userId;
+
+	    private String email;
+
+	    private String role;
+
+	    private String message;
 }
