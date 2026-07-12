@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.jpb.api.dao.ApplicationRepository;
 import com.jpb.api.dao.CandidateRepository;
 import com.jpb.api.dao.JobRepository;
+import com.jpb.api.dto.application.ApplicationRequest;
+import com.jpb.api.dto.application.ApplicationResponse;
+import com.jpb.api.dto.application.ApplicationUpdateRequest;
 import com.jpb.api.entity.Application;
 import com.jpb.api.entity.Candidate;
 import com.jpb.api.entity.Job;
@@ -22,62 +25,101 @@ public class ApplicationService {
 
     @Autowired
     private JobRepository jobRepository;
+    
+    private ApplicationResponse convertToResponse(Application application) {
 
-    public Application createApplication(Long candidateId,Long jobId,String coverLetter) {
+        return ApplicationResponse.builder()
+                .id(application.getId())
+                .appliedDate(application.getAppliedDate())
+                .status(application.getStatus())
+                .coverLetter(application.getCoverLetter())
+                .active(application.getActive())
+                .createdAt(application.getCreatedAt())
+                .updatedAt(application.getUpdatedAt())
+                .candidateId(application.getCandidate().getId())
+                .candidateName(
+                        application.getCandidate().getFirstName()
+                        + " "
+                        + application.getCandidate().getLastName())
+                .jobId(application.getJob().getId())
+                .jobTitle(application.getJob().getTitle())
+                .build();
+    }
+
+    public ApplicationResponse createApplication(ApplicationRequest request){
         System.out.println("ApplicationService.createApplication()");
-        
-        Candidate candidate = candidateRepository.findById(candidateId).orElseThrow(() ->
-                        new RuntimeException("Candidate not found"));
-        Job job = jobRepository.findById(jobId).orElseThrow(() ->
-                        new RuntimeException("Job not found"));
-        
+        Candidate candidate = candidateRepository.findById(request.getCandidateId())
+                .orElseThrow(() -> new RuntimeException("Candidate not found"));
+
+        Job job = jobRepository.findById(request.getJobId())
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
         Application application = new Application();
 
         application.setCandidate(candidate);
         application.setJob(job);
-        application.setCoverLetter(coverLetter);
+        application.setCoverLetter(request.getCoverLetter());
         application.setAppliedDate(LocalDate.now());
         application.setStatus("APPLIED");
         application.setCreatedAt(LocalDateTime.now());
         application.setUpdatedAt(LocalDateTime.now());
         application.setActive(true);
-        return applicationRepository.save(application);
+
+        application = applicationRepository.save(application);
+
+        return convertToResponse(application);
     }
 
-    public List<Application> getAllApplications() {
+    public List<ApplicationResponse> getAllApplications() {
     	 System.out.println("ApplicationService.getAllApplications()");
-        return applicationRepository.findAll();
+    	 return applicationRepository.findAll()
+    	            .stream()
+    	            .map(this::convertToResponse)
+    	            .toList();
     }
 
-    public Application getApplicationById(Long id) {
+    public ApplicationResponse getApplicationById(Long id){
     	System.out.println("ApplicationService.getApplicationById()");
-        return applicationRepository.findById(id).orElseThrow(() ->
+    	Application application = applicationRepository.findById(id)
+                .orElseThrow(() ->
                         new RuntimeException("Application not found"));
+        return convertToResponse(application);
     }
 
-    public List<Application> getApplicationsByJob(Long jobId) {
+    public List<ApplicationResponse> getApplicationsByJob(Long jobId){
     	System.out.println("ApplicationService.getApplicationsByJob()");
         Job job = jobRepository.findById(jobId).orElseThrow(() ->
                         new RuntimeException("Job not found"));
-        return applicationRepository.findByJob(job);
+        return applicationRepository.findByJob(job)
+        		     .stream()
+                 .map(this::convertToResponse)
+                 .toList();
     }
 
-    public List<Application> getApplicationsByCandidate(Long candidateId) {
+    public List<ApplicationResponse> getApplicationsByCandidate(Long candidateId) {
     	System.out.println("ApplicationService.getApplicationsByCandidate()");
         Candidate candidate = candidateRepository.findById(candidateId).orElseThrow(() ->
                         new RuntimeException("Candidate not found"));
-        return applicationRepository.findByCandidate(candidate);
+        return applicationRepository.findByCandidate(candidate)
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
     }
 
-    public Application updateApplication(Long id,String status,String coverLetter) {
+    public ApplicationResponse updateApplication(
+            Long id,
+            ApplicationUpdateRequest request) {
     	System.out.println("ApplicationService.updateApplication()");
         Application application = applicationRepository.findById(id).orElseThrow(() ->
                         new RuntimeException("Application not found"));
 
-        application.setStatus(status);
-        application.setCoverLetter(coverLetter);
+        application.setStatus(request.getStatus());
+        application.setCoverLetter(request.getCoverLetter());
         application.setUpdatedAt(LocalDateTime.now());
-        return applicationRepository.save(application);
+
+        application = applicationRepository.save(application);
+
+        return convertToResponse(application);
     }
 
     public void deleteApplication(Long id) {

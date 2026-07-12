@@ -12,4 +12,7 @@ public class ApplicationRequest {
 
     @NotBlank(message = "Cover letter is required")
     private String coverLetter;
+
+    @NotNull(message = "Candidate id is required")
+    private Long candidateId;
 }
