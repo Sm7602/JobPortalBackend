@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.jpb.api.entity.Candidate;
+import com.jpb.api.dto.candidate.CandidateRequest;
+import com.jpb.api.dto.candidate.CandidateResponse;
+import com.jpb.api.dto.candidate.CandidateUpdateRequest;
 import com.jpb.api.service.CandidateService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/candidates")
@@ -20,27 +23,27 @@ public class CandidateController {
     private CandidateService candidateService;
 
     @PostMapping
-    public Candidate saveCandidate(@RequestBody Candidate candidate) {
+    public CandidateResponse  saveCandidate( @Valid @RequestBody CandidateRequest request) {
         System.out.println("CandidateController.saveCandidate()");
-        return candidateService.saveCandidate(candidate);
+        return candidateService.saveCandidate(request);
     }
 
     @GetMapping
-    public List<Candidate> getAllCandidates() {
+    public List<CandidateResponse> getAllCandidates() {
     	System.out.println("CandidateController.getAllCandidates()");
         return candidateService.getAllCandidates();
     }
 
     @GetMapping("/{id}")
-    public Candidate getCandidateById(@PathVariable Long id) {
+    public CandidateResponse getCandidateById(@PathVariable Long id) {
     	System.out.println("CandidateController.getCandidateById()");
         return candidateService.getCandidateById(id);
     }
 
     @PutMapping("/{id}")
-    public Candidate updateCandidate(@PathVariable Long id,@RequestBody Candidate candidate) {
+    public CandidateResponse updateCandidate(@PathVariable Long id,@Valid @RequestBody CandidateUpdateRequest request) {
     	System.out.println("CandidateController.updateCandidate()");
-        return candidateService.updateCandidate(id, candidate);
+        return candidateService.updateCandidate(id, request);
     }
 
     @DeleteMapping("/{id}")

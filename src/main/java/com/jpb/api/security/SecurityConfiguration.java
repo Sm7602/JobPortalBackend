@@ -27,16 +27,16 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/**")
+                    .requestMatchers("/api/**")
                     .permitAll()
                     .requestMatchers("/error")
                     .permitAll()
-                    .requestMatchers("/api/admins/**")
-                    .hasRole("ADMIN")
-                    .requestMatchers("/api/candidates/**")
-                    .hasRole("CANDIDATE")
-                    .requestMatchers("/api/companies/**")
-                    .hasRole("COMPANY")
+//                    .requestMatchers("/api/admins/**")
+//                    .hasRole("ADMIN")
+//                    .requestMatchers("/api/candidates/**")
+//                    .hasRole("CANDIDATE")
+//                    .requestMatchers("/api/companies/**")
+//                    .hasRole("COMPANY")
                     .anyRequest()
                     .authenticated())
 

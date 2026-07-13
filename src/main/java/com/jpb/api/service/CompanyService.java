@@ -4,6 +4,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jpb.api.dao.CompanyRepository;
+import com.jpb.api.dto.company.CompanyRequest;
+import com.jpb.api.dto.company.CompanyResponse;
+import com.jpb.api.dto.company.CompanyUpdateRequest;
 import com.jpb.api.entity.Company;
 
 @Service
@@ -12,40 +15,76 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public Company saveCompany(Company company) {
+    private CompanyResponse convertToResponse(Company company) {
+
+        return CompanyResponse.builder()
+                .id(company.getId())
+                .companyName(company.getCompanyName())
+                .phoneNumber(company.getPhoneNumber())
+                .website(company.getWebsite())
+                .industry(company.getIndustry())
+                .location(company.getLocation())
+                .description(company.getDescription())
+                .logoUrl(company.getLogoUrl())
+                .active(company.getActive())
+                .createdAt(company.getCreatedAt())
+                .updatedAt(company.getUpdatedAt())
+                .userId(company.getUser().getId())
+                .email(company.getUser().getEmail())
+                .build();
+    }
+    
+    public CompanyResponse saveCompany(CompanyRequest request) {
         System.out.println("CompanyService.saveCompany()");
-        company.setCreatedAt(LocalDateTime.now());
-        company.setUpdatedAt(LocalDateTime.now());
-        company.setActive(true);
-        return companyRepository.save(company);
+        Company company=Company.builder()
+        		    .companyName(request.getCompanyName())
+                .phoneNumber(request.getPhoneNumber())
+                .website(request.getWebsite())
+                .industry(request.getIndustry())
+                .location(request.getLocation())
+                .description(request.getDescription())
+                .logoUrl(request.getLogoUrl())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .active(true)
+                .build();
+        company= companyRepository.save(company);
+        
+        return convertToResponse(company);
     }
 
-    public List<Company> getAllCompanies() {
+    public List<CompanyResponse> getAllCompanies() {
         System.out.println("CompanyService.getAllCompanies()");
-        return companyRepository.findAll();
+        return companyRepository.findAll()
+        		    .stream()
+ 	            .map(this::convertToResponse)
+ 	            .toList(); 		
     }
 
-    public Company getCompanyById(Long id) {
+    public CompanyResponse getCompanyById(Long id) {
         System.out.println("CompanyService.getCompanyById()");
-        return companyRepository.findById(id).orElseThrow(() ->
+        Company company= companyRepository.findById(id).orElseThrow(() ->
                         new RuntimeException("Company not found"));
+        return convertToResponse(company);
     }
 
-    public Company updateCompany(Long id,Company updatedCompany) {
+    public CompanyResponse updateCompany(Long id,CompanyUpdateRequest request) {
         System.out.println("CompanyService.updateCompany()");
         Company company = companyRepository.findById(id).orElseThrow(() ->
                         new RuntimeException("Company not found"));
 
-        company.setCompanyName(updatedCompany.getCompanyName());
-        company.setPhoneNumber(updatedCompany.getPhoneNumber());
-        company.setWebsite(updatedCompany.getWebsite());
-        company.setIndustry(updatedCompany.getIndustry());
-        company.setLocation(updatedCompany.getLocation());
-        company.setDescription(updatedCompany.getDescription());
-        company.setLogoUrl(updatedCompany.getLogoUrl());
+        company.setCompanyName(request.getCompanyName());
+        company.setPhoneNumber(request.getPhoneNumber());
+        company.setWebsite(request.getWebsite());
+        company.setIndustry(request.getIndustry());
+        company.setLocation(request.getLocation());
+        company.setDescription(request.getDescription());
+        company.setLogoUrl(request.getLogoUrl());
         company.setUpdatedAt(LocalDateTime.now());
 
-        return companyRepository.save(company);
+        company= companyRepository.save(company);
+        
+        return convertToResponse(company);
     }
 
     public void deleteCompany(Long id) {

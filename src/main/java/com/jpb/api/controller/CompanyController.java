@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.jpb.api.entity.Company;
+import com.jpb.api.dto.company.CompanyRequest;
+import com.jpb.api.dto.company.CompanyResponse;
+import com.jpb.api.dto.company.CompanyUpdateRequest;
 import com.jpb.api.service.CompanyService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -20,27 +23,27 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping
-    public Company saveCompany(@RequestBody Company company) {
+    public CompanyResponse saveCompany(@Valid @RequestBody CompanyRequest request) {
         System.out.println("CompanyService.saveCompany()");
-        return companyService.saveCompany(company);
+        return companyService.saveCompany(request);
     }
 
     @GetMapping
-    public List<Company> getAllCompanies() {
+    public List<CompanyResponse> getAllCompanies() {
         System.out.println("CompanyService.getAllCompanies()");
         return companyService.getAllCompanies();
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable Long id) {
+    public CompanyResponse getCompanyById(@PathVariable Long id) {
         System.out.println("CompanyService.getCompanyById()");
         return companyService.getCompanyById(id);
     }
 
     @PutMapping("/{id}")
-    public Company updateCompany(@PathVariable Long id, @RequestBody Company company) {
+    public CompanyResponse updateCompany(@PathVariable Long id, @Valid @RequestBody CompanyUpdateRequest request) {
     	System.out.println("CompanyService.updateCompany()");
-        return companyService.updateCompany(id, company);
+        return companyService.updateCompany(id, request);
     }
 
     @DeleteMapping("/{id}")
