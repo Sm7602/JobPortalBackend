@@ -16,7 +16,7 @@ import com.jpb.api.service.CandidateService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/candidates")
+@RequestMapping("/api/v1/candidates")
 public class CandidateController {
 
     @Autowired

@@ -17,7 +17,7 @@ import com.jpb.api.service.ApplicationService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/applications")
+@RequestMapping("/api/v1/applications")
 public class ApplicationController {
 
     @Autowired

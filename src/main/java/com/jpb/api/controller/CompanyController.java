@@ -16,7 +16,7 @@ import com.jpb.api.service.CompanyService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("/api/v1/companies")
 public class CompanyController {
 
     @Autowired

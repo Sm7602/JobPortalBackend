@@ -3,6 +3,7 @@ package com.jpb.api.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -27,16 +29,16 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/**")
+                    .requestMatchers("/api/v1/auth/**")
                     .permitAll()
                     .requestMatchers("/error")
                     .permitAll()
-//                    .requestMatchers("/api/admins/**")
-//                    .hasRole("ADMIN")
-//                    .requestMatchers("/api/candidates/**")
-//                    .hasRole("CANDIDATE")
-//                    .requestMatchers("/api/companies/**")
-//                    .hasRole("COMPANY")
+                    .requestMatchers("/api/v1/admins/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/v1/candidates/**")
+                    .hasRole("CANDIDATE")
+                    .requestMatchers("/api/v1/companies/**")
+                    .hasRole("COMPANY")
                     .anyRequest()
                     .authenticated())
 

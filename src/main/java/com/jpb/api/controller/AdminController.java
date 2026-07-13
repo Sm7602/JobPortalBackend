@@ -18,7 +18,7 @@ import com.jpb.api.service.AdminService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admins")
+@RequestMapping("/api/v1/admins")
 public class AdminController {
 
     @Autowired
