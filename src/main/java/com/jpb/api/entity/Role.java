@@ -2,7 +2,8 @@ package com.jpb.api.entity;
 
 public enum Role {
 
-	ADMIN,
-	CANDIDATE,
-	CAMPANY
+    ADMIN,
+    CANDIDATE,
+    COMPANY
+
 }

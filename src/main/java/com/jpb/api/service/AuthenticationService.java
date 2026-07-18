@@ -144,7 +144,7 @@ public class AuthenticationService {
 	            .lastname("")
 	            .email(request.getEmail())
 	            .password(passwordEncoder.encode(request.getPassword()))
-	            .role(Role.CAMPANY)
+	            .role(Role.COMPANY)
 	            .build();
 
 	    user = userRepository.save(user);
